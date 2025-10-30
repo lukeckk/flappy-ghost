@@ -77,6 +77,4 @@ Open your browser to `http://localhost:8080`
 - `POST /api/scores` - Submit score
 - `POST /api/telemetry` - Log game events
 
-That's it! The game runs locally with a simple Python backend and static file server. For production deployment on AWS EKS, see the deployment scripts in the `scripts/` directory.
-
 Enjoy playing Flappy Kiro! 🎮👻
