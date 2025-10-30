@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flappy-kiro-backend
+  namespace: flappy-kiro
+  labels:
+    app: flappy-kiro-backend
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flappy-kiro-backend
+  template:
+    metadata:
+      labels:
+        app: flappy-kiro-backend
+        component: backend
+    spec:
+      containers:
+      - name: backend
+        image: 590184087085.dkr.ecr.us-west-2.amazonaws.com/flappy-kiro-backend:fixed
+        ports:
+        - containerPort: 5000
+          name: http
+        env:
+        - name: PORT
+          value: "5000"
+        - name: DATA_DIR
+          value: "/app/data"
+        - name: FLASK_ENV
+          value: "production"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: data-storage
+          mountPath: /app/data
+        - name: tmp-storage
+          mountPath: /tmp
+      volumes:
+      - name: data-storage
+        emptyDir: {}
+      - name: tmp-storage
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flappy-kiro-backend-service
+  namespace: flappy-kiro
+  labels:
+    app: flappy-kiro-backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+    name: http
+  selector:
+    app: flappy-kiro-backend

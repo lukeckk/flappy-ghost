@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Kiro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="menu-screen" class="screen active">
+            <h1>Flappy Kiro</h1>
+            <p>Guide Ghosty through the walls!</p>
+            
+            <div class="difficulty-selection">
+                <h3>Select Difficulty:</h3>
+                <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+                <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+            </div>
+            
+            <button id="start-game">Start Game</button>
+            <button id="show-leaderboard">Leaderboard</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <canvas id="game-canvas" width="800" height="600"></canvas>
+            <div id="score">Score: 0</div>
+            <div id="difficulty-display"></div>
+        </div>
+
+        <div id="game-over-screen" class="screen">
+            <h2>Game Over!</h2>
+            <div id="final-score"></div>
+            <div id="score-submission">
+                <input type="text" id="username" placeholder="Enter username" maxlength="20">
+                <button id="submit-score">Submit Score</button>
+            </div>
+            <button id="play-again">Play Again</button>
+            <button id="back-to-menu">Back to Menu</button>
+        </div>
+
+        <div id="leaderboard-screen" class="screen">
+            <h2>Global Leaderboard</h2>
+            <div id="leaderboard-content"></div>
+            <button id="back-from-leaderboard">Back to Menu</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - can be overridden by environment
+        window.BACKEND_URL = '/api';
+    </script>
+    <script src="telemetry.js"></script>
+    <script src="game.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
